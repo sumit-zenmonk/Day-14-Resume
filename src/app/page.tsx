@@ -22,7 +22,7 @@ export default function HomeComp() {
 
   const handleSelection = async (id: number) => {
     await dispatch(selectCurrTemplate({ template_id: id }))
-    router.push(`/form`);
+    router.replace(`/form`);
   }
 
   return (
