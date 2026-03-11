@@ -73,7 +73,7 @@ export default function HeaderComp() {
                 >
                     <MenuItem
                         onClick={() => {
-                            router.push('/');
+                            router.replace('/');
                             handleMenuClose();
                         }}
                         sx={{
@@ -109,7 +109,7 @@ export default function HeaderComp() {
                     ) : (
                         <MenuItem
                             onClick={() => {
-                                router.push('/login');
+                                router.replace('/login');
                                 handleMenuClose();
                             }}
                             sx={{

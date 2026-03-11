@@ -22,7 +22,7 @@ export default function HomeComp() {
 
   const handleSelection = async (id: number) => {
     await dispatch(selectCurrTemplate({ template_id: id }))
-    router.replace(`/form`);
+    router.push(`/form`);
   }
 
   return (
@@ -37,14 +37,14 @@ export default function HomeComp() {
           <Box className={styles.resume_card}>
             <Image src={'/v1.png'} width={100} height={100} alt="miss" />
             <Box className={styles.resume_card_button_box}>
-              <Button onClick={() => { router.replace('/resume/v1') }}>Preview</Button>
+              <Button onClick={() => { router.push('/resume/v1') }}>Preview</Button>
               <Button onClick={() => { handleSelection(1) }}>Use</Button>
             </Box>
           </Box>
           <Box className={styles.resume_card}>
             <Image src={'/v2.png'} width={100} height={100} alt="miss" onClick={() => { handleSelection(2) }} />
             <Box className={styles.resume_card_button_box}>
-              <Button onClick={() => { router.replace('/resume/v2') }}>Preview</Button>
+              <Button onClick={() => { router.push('/resume/v2') }}>Preview</Button>
               <Button onClick={() => { handleSelection(2) }}>Use</Button>
             </Box>
           </Box>
