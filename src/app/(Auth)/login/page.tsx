@@ -12,6 +12,7 @@ import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
 import Cookies from "js-cookie"
+import intialData from "../../../../dummy_content.json";
 
 import {
     Box,
@@ -23,6 +24,7 @@ import {
     InputLabel
 } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
+import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice"
 
 export default function LoginForm() {
     const dispatch = useDispatch<AppDispatch>()
@@ -46,11 +48,10 @@ export default function LoginForm() {
             enqueueSnackbar("User not found. Please signup first.", { variant: "error" })
             return
         }
-        dispatch(
-            selectCurrLogin({
-                mobile_no: data.phone_no
-            })
-        )
+
+        await dispatch(selectCurrLogin({ mobile_no: data.phone_no }));
+        await dispatch(AddContent({ mobile_no: data.phone_no, content_data: intialData }));
+
         Cookies.set("phone_no", data.phone_no)
         router.replace("/")
     }

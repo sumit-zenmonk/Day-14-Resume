@@ -34,7 +34,7 @@ const SkillSchema = z.object({
 export const ResumeSchema = z.object({
     basics: z.object({
         name: z.string().min(1, "Name is required"),
-        image: z.file().optional().or(z.literal("")),
+        image: z.string().min(1, "Image is required"),
         email: z.string().email("Please provide a valid email address"),
         phone: z.string().min(1, "Phone number is required"),
         summary: z.string().min(1, "Summary is required"),

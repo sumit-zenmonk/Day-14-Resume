@@ -20,8 +20,8 @@ export default function HeaderComp() {
 
     const handleLogOut = async () => {
         await dispatch(resetCurrLogin())
-        router.replace("/login")
         Cookies.remove("phone_no");
+        router.replace("/login")
     }
 
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {

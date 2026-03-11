@@ -5,14 +5,38 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
-    background: #121212;
+    background: linear-gradient(160deg, #020617, #3f3f3f, #020617);
     color: white;
 }
 
+.header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2%;
+}
+
 .title {
-    margin-bottom: 20px;
-    font-weight: 600;
+    color: white;
+    font-weight: 900;
+}
+
+.lgtbtn {
+    background-color: rgb(87, 87, 87);
+    color: white;
+    font-weight: 900;
+    border-radius: 16px;
+    padding: .5%;
+    transition: all ease .5s;
+}
+
+.lgtbtn:hover {
+    transform: translateY(-5px);
+    background-color: white;
+    color: black;
 }
 
 .form {

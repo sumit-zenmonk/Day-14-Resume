@@ -4,8 +4,13 @@ import styles from "./resume_form_comp.module.css";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResumeSchema, ResumeSchemaType } from "@/types/resume";
-
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice";
+import { resetCurrLogin } from "@/redux/feature/curr_login/currLoginSlice";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function ResumeForm() {
     const {
@@ -31,11 +36,35 @@ export default function ResumeForm() {
                     region: "",
                 },
             },
-            work: [],
-            education: [],
-            skills: [],
+            work: [
+                {
+                    name: "",
+                    position: "",
+                    url: "",
+                    startDate: "",
+                    endDate: "",
+                }
+            ],
+            education: [{
+                institution: "",
+                url: "",
+                area: "",
+                studyType: "",
+                startDate: "",
+                endDate: "",
+                score: "",
+            }
+            ],
+            skills: [{
+                name: "",
+                level: "",
+            }],
         },
     });
+    const dispatch = useDispatch<AppDispatch>()
+    const user = useSelector((state: RootState) => state.CurrLoginReducer)
+    const template_id = useSelector((state: RootState) => state.CurrSelectedTemplate.template_id)
+    const router = useRouter();
 
     const {
         fields: workFields,
@@ -64,15 +93,28 @@ export default function ResumeForm() {
         name: "skills",
     });
 
-    const onSubmit = (data: ResumeSchemaType) => {
+    const onSubmit = async (data: ResumeSchemaType) => {
         console.log(data);
+        await dispatch(AddContent({ mobile_no: user.mobile_no, content_data: data }))
+        router.replace(`/resume/v${template_id}`)
     };
+
+    const handleLogOut = async () => {
+        await dispatch(resetCurrLogin())
+        Cookies.remove("phone_no");
+        router.replace("/login")
+    }
 
     return (
         <Box className={styles.container}>
-            <Typography variant="h5" className={styles.title}>
-                Resume Builder
-            </Typography>
+            <Box className={styles.header}>
+                <Typography variant="h5" className={styles.title}>
+                    Resume Builder
+                </Typography>
+                <Button color="error" onClick={() => handleLogOut()} className={styles.lgtbtn}>
+                    Log Out
+                </Button>
+            </Box>
 
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 {/* BASIC INFO */}
@@ -115,7 +157,7 @@ export default function ResumeForm() {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                                setValue("basics.image", file);
+                                setValue("basics.image", file.name, { shouldValidate: true });
                             }
                         }}
                         error={!!errors?.basics?.image}

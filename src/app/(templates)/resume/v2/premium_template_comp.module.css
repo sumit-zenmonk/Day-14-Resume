@@ -1,0 +1,183 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    overflow: scroll;
+}
+
+.header {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4%;
+}
+
+.header_logo_box {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.username {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.profession {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.header_details {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10%;
+}
+
+.header_details_box {
+    display: flex;
+    flex-direction: column;
+}
+
+.headerLabel {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgb(0, 81, 134);
+}
+
+.headerLabelText {
+    font-size: .9rem;
+}
+
+.header_img_box {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header_img_box img {
+    width: 80%;
+    height: auto;
+    object-fit: cover;
+}
+
+.body {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: rgb(211, 237, 255);
+    overflow: scroll;
+}
+
+.left_section {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 3%;
+    gap: 6%;
+}
+
+.right_section {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3%;
+    gap: 6%;
+}
+
+.section_box {
+    display: flex;
+    flex-direction: column;
+    /* gap: 5%;*/
+}
+
+.skill_box {
+    border-radius: 100px;
+    background-color: rgb(0, 88, 146);
+    color: white;
+    padding: 5% 20%;
+}
+
+.section_title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 2%;
+}
+
+.section_text {
+    font-size: .95rem;
+    line-height: 150%;
+}
+
+.skill_item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.skill_name {
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.skill_level {
+    font-size: .85rem;
+    /* color: #444; */
+}
+
+.work_item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+}
+
+.work_position {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.work_company {
+    font-size: .9rem;
+}
+
+
+.work_date {
+    font-size: .85rem;
+    color: #555;
+}
+
+.edu_item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+}
+
+.edu_degree {
+    font-weight: 600;
+}
+
+.edu_school {
+    font-size: .9rem;
+}
+
+.edu_date {
+    font-size: .85rem;
+    color: #555;
+}

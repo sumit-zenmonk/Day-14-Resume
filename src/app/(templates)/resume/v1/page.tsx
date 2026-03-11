@@ -1,34 +1,34 @@
 "use client"
 
-import { basics, education, skills, work } from "../../../../../dummy_content.json"
 import { Box, Typography } from "@mui/material"
 import styles from "./basic_template_comp.module.css"
-import { ResumeSchemaType } from "@/types/resume"
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice";
 
-interface BasicTemplateProps {
-    resume_data: ResumeSchemaType;
-}
+export default function BasicTemplateComp() {
+    const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
+    const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no))
+    const { basics, work, education, skills } = userData?.content_data || {};
 
-export default function BasicTemplateComp({ resume_data }: BasicTemplateProps) {
-    const { basics, education, skills, work } = resume_data;
     return (
         <Box className={styles.container}>
             <Box className={styles.content}>
                 {/* Header */}
                 <Box className={styles.sections}>
                     <Typography className={styles.user_name}>
-                        {basics.name || "John Doe"}
+                        {basics?.name || "John Doe"}
                     </Typography>
 
                     <Box className={styles.header_basic_details}>
                         <Typography className={styles.basic_item}>
-                            {basics.email || "email@example.com"} | {basics.phone || "(555) 000-0000"}
+                            {basics?.email || "email@example.com"} | {basics?.phone || "(555) 000-0000"}
                         </Typography>
                         <Typography className={styles.basic_item}>
-                            {basics.location?.city || "City"}, {basics.location?.region || "Region"} {basics.location?.postalCode}
+                            {basics?.location?.city || "City"}, {basics?.location?.region || "Region"} {basics?.location?.postalCode}
                         </Typography>
                         <Typography className={styles.basic_item}>
-                            {basics.location?.countryCode || "Country"}
+                            {basics?.location?.countryCode || "Country"}
                         </Typography>
                     </Box>
                 </Box>
@@ -40,7 +40,7 @@ export default function BasicTemplateComp({ resume_data }: BasicTemplateProps) {
                         Summary
                     </Typography>
                     <Typography className={styles.section_text}>
-                        {basics.summary || "Professional summary goes here..."}
+                        {basics?.summary || "Professional summary goes here..."}
                     </Typography>
                 </Box>
 
@@ -51,7 +51,7 @@ export default function BasicTemplateComp({ resume_data }: BasicTemplateProps) {
                         Work Experience
                     </Typography>
 
-                    {work.length > 0 ? work.map((job, i) => (
+                    {work && work.length > 0 ? work.map((job: any, i: number) => (
                         <Box key={i} className={styles.item_block}>
                             <Typography className={styles.item_title}>
                                 {job.position || "Position"} — {job.name || "Company"}
@@ -73,7 +73,7 @@ export default function BasicTemplateComp({ resume_data }: BasicTemplateProps) {
                     <Typography className={styles.section_title}>
                         Skills
                     </Typography>
-                    {skills.length > 0 ? skills.map((s, i) => (
+                    {skills && skills.length > 0 ? skills.map((s: any, i: number) => (
                         <Typography key={i} className={styles.skill_item}>
                             {s.name} — {s.level}
                         </Typography>
@@ -88,7 +88,7 @@ export default function BasicTemplateComp({ resume_data }: BasicTemplateProps) {
                         Education
                     </Typography>
 
-                    {education.length > 0 ? education.map((edu, i) => (
+                    {education && education.length > 0 ? education.map((edu: any, i: number) => (
                         <Box key={i} className={styles.item_block}>
                             <Typography className={styles.item_title}>
                                 {edu.institution || "Institution"}

@@ -5,16 +5,19 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from "redux-persist/lib/storage";
 import CurrLoginReducer from "../feature/curr_login/currLoginSlice";
 import AllSignedUpUsersReducer from "../feature/all_signup_users/allUserSlice";
+import AllUserContentReducer from "../feature/all_signup_users_content/allContentSlice";
+import CurrSelectedTemplate from "../feature/selected_template/selected_template";
 
 const persistConfig = {
     key: "root",
     storage,
-    blacklist: ['searchMusicReducer',],
 };
 
 const rootReducer = combineReducers({
     CurrLoginReducer: CurrLoginReducer,
     AllSignedUpUsersReducer: AllSignedUpUsersReducer,
+    AllUserContentReducer: AllUserContentReducer,
+    CurrSelectedTemplate: CurrSelectedTemplate,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import DescriptionIcon from '@mui/icons-material/Description';
 import { AllSignup } from "@/redux/feature/all_signup_users/allUserSlice";
 import Cookies from "js-cookie";
+import intialData from "../../../../dummy_content.json";
 
 import {
     Box,
@@ -20,6 +21,7 @@ import {
     Typography
 } from "@mui/material"
 import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
+import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice"
 
 export default function SignupForm() {
     const dispatch = useDispatch<AppDispatch>()
@@ -33,16 +35,10 @@ export default function SignupForm() {
     })
 
     const onSubmit = async (data: SignupSchemaType) => {
-        dispatch(
-            AllSignup({
-                mobile_no: data.phone_no
-            })
-        );
-        dispatch(
-            selectCurrLogin({
-                mobile_no: data.phone_no
-            })
-        )
+        await dispatch(AllSignup({ mobile_no: data.phone_no }));
+        await dispatch(selectCurrLogin({ mobile_no: data.phone_no }))
+        await dispatch(AddContent({ mobile_no: data.phone_no, content_data: intialData }));
+
         Cookies.set("phone_no", data.phone_no);
         router.replace("/");
     }
