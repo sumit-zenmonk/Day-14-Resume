@@ -6,20 +6,20 @@ import { AppDispatch } from "@/redux/store"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signupSchema, SignupSchemaType } from "@/types/signup"
-import { googleLogin, signupUser } from "@/redux/feature/Auth/authAction"
 import { useRouter } from "next/navigation"
 import DescriptionIcon from '@mui/icons-material/Description';
+import { AllSignup } from "@/redux/feature/all_signup_users/allUserSlice";
+import Cookies from "js-cookie";
 
 import {
     Box,
     Button,
     Card,
-    Divider,
     InputLabel,
     TextField,
     Typography
 } from "@mui/material"
-import Image from "next/image"
+import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
 
 export default function SignupForm() {
     const dispatch = useDispatch<AppDispatch>()
@@ -31,22 +31,20 @@ export default function SignupForm() {
     } = useForm<SignupSchemaType>({
         resolver: zodResolver(signupSchema)
     })
-    const onSubmit = async (data: SignupSchemaType) => {
-        try {
-            await dispatch(signupUser({ email: data.email, password: data.password }))
-            router.replace("/")
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
-    const handleGoogleLogin = async () => {
-        try {
-            await dispatch(googleLogin()).unwrap()
-            router.replace("/")
-        } catch (error) {
-            console.error(error)
-        }
+    const onSubmit = async (data: SignupSchemaType) => {
+        dispatch(
+            AllSignup({
+                mobile_no: data.phone_no
+            })
+        );
+        dispatch(
+            selectCurrLogin({
+                mobile_no: data.phone_no
+            })
+        )
+        Cookies.set("phone_no", data.phone_no);
+        router.replace("/");
     }
 
     return (
@@ -66,85 +64,29 @@ export default function SignupForm() {
 
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                     <Box className={styles.field}>
-                        <InputLabel htmlFor="email" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
-                            Email
+                        <InputLabel htmlFor="phone_no" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
+                            Phone no
                         </InputLabel>
                         <TextField
-                            id="email"
-                            // label="Email"
-                            type="email"
+                            id="phone_no"
+                            // label="Phone"
+                            type="number"
                             fullWidth
-                            {...register("email")}
+                            {...register("phone_no")}
                             slotProps={{
                                 inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
                                 input: {
                                     sx: {
-                                        height:"40px",
+                                        height: "40px",
                                         color: 'white',
                                         '& input::placeholder': { color: 'white', opacity: 1 },
                                     },
                                 },
                             }}
                         />
-                        {errors.email && (
+                        {errors.phone_no && (
                             <span className={styles.error}>
-                                {errors.email.message}
-                            </span>
-                        )}
-                    </Box>
-
-                    <Box className={styles.field}>
-                        <InputLabel htmlFor="password" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
-                            Password
-                        </InputLabel>
-                        <TextField
-                            id="password"
-                            // label="Password"
-                            type="password"
-                            fullWidth
-                            {...register("password")}
-                            slotProps={{
-                                inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
-                                input: {
-                                    sx: {
-                                        height:"40px",
-                                        color: 'white',
-                                        '& input::placeholder': { color: 'white', opacity: 1 },
-                                    },
-                                },
-                            }}
-                        />
-                        {errors.password && (
-                            <span className={styles.error}>
-                                {errors.password.message}
-                            </span>
-                        )}
-                    </Box>
-
-                    <Box className={styles.field}>
-                        <InputLabel htmlFor="confirmpassword" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
-                            Confirm Password
-                        </InputLabel>
-                        <TextField
-                            id="confirmpassword"
-                            // label="Confirm Password"
-                            type="password"
-                            fullWidth
-                            {...register("confirmPassword")}
-                            slotProps={{
-                                inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
-                                input: {
-                                    sx: {
-                                        height:"40px",
-                                        color: 'white',
-                                        '& input::placeholder': { color: 'white', opacity: 1 },
-                                    },
-                                },
-                            }}
-                        />
-                        {errors.confirmPassword && (
-                            <span className={styles.error}>
-                                {errors.confirmPassword.message}
+                                {errors.phone_no.message}
                             </span>
                         )}
                     </Box>
@@ -155,26 +97,6 @@ export default function SignupForm() {
                         className={styles.button}
                     >
                         Signup
-                    </Button>
-
-
-                    <Divider className={styles.divider}>OR</Divider>
-
-                    <Button
-                        variant="outlined"
-                        className={styles.providerLoginBox}
-                        onClick={handleGoogleLogin}
-                    >
-                        {/* <GoogleIcon /> */}
-                        <Image
-                            src={'/google.png'}
-                            alt="google icon"
-                            width={25}
-                            height={25}
-                        />
-                        <Typography>
-                            Login with Google
-                        </Typography>
                     </Button>
 
                     <Box className={styles.loginBox}>

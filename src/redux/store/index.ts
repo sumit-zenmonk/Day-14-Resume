@@ -3,7 +3,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import authReducer from "../feature/Auth/authSlice";
+import CurrLoginReducer from "../feature/curr_login/currLoginSlice";
+import AllSignedUpUsersReducer from "../feature/all_signup_users/allUserSlice";
 
 const persistConfig = {
     key: "root",
@@ -12,7 +13,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    authReducer: authReducer,
+    CurrLoginReducer: CurrLoginReducer,
+    AllSignedUpUsersReducer: AllSignedUpUsersReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,0 +1,392 @@
+"use client";
+
+import styles from "./resume_form_comp.module.css";
+import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ResumeSchema, ResumeSchemaType } from "@/types/resume";
+
+import { Box, Button, TextField, Typography } from "@mui/material";
+
+export default function ResumeForm() {
+    const {
+        register,
+        handleSubmit,
+        control,
+        setValue,
+        formState: { errors },
+    } = useForm<ResumeSchemaType>({
+        resolver: zodResolver(ResumeSchema),
+        defaultValues: {
+            basics: {
+                name: "",
+                image: "",
+                email: "",
+                phone: "",
+                summary: "",
+                location: {
+                    address: "",
+                    postalCode: "",
+                    city: "",
+                    countryCode: "",
+                    region: "",
+                },
+            },
+            work: [],
+            education: [],
+            skills: [],
+        },
+    });
+
+    const {
+        fields: workFields,
+        append: addWork,
+        remove: removeWork,
+    } = useFieldArray({
+        control,
+        name: "work",
+    });
+
+    const {
+        fields: educationFields,
+        append: addEducation,
+        remove: removeEducation,
+    } = useFieldArray({
+        control,
+        name: "education",
+    });
+
+    const {
+        fields: skillFields,
+        append: addSkill,
+        remove: removeSkill,
+    } = useFieldArray({
+        control,
+        name: "skills",
+    });
+
+    const onSubmit = (data: ResumeSchemaType) => {
+        console.log(data);
+    };
+
+    return (
+        <Box className={styles.container}>
+            <Typography variant="h5" className={styles.title}>
+                Resume Builder
+            </Typography>
+
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                {/* BASIC INFO */}
+
+                <Typography className={styles.sectionTitle}>
+                    Basic Information
+                </Typography>
+
+                <Box className={styles.row}>
+                    <TextField
+                        label="Name"
+                        className={styles.input}
+                        {...register("basics.name")}
+                        error={!!errors?.basics?.name}
+                        helperText={errors?.basics?.name?.message}
+                    />
+
+                    <TextField
+                        label="Email"
+                        className={styles.input}
+                        {...register("basics.email")}
+                        error={!!errors?.basics?.email}
+                        helperText={errors?.basics?.email?.message}
+                    />
+                </Box>
+
+                <Box className={styles.row}>
+                    <TextField
+                        label="Phone"
+                        className={styles.input}
+                        {...register("basics.phone")}
+                        error={!!errors?.basics?.phone}
+                        helperText={errors?.basics?.phone?.message}
+                    />
+
+                    <TextField
+                        type="file"
+                        className={styles.input}
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                                setValue("basics.image", file);
+                            }
+                        }}
+                        error={!!errors?.basics?.image}
+                        helperText={errors?.basics?.image?.message as string}
+                    />
+                </Box>
+
+                <TextField
+                    label="Summary"
+                    multiline
+                    rows={3}
+                    className={styles.fullInput}
+                    {...register("basics.summary")}
+                    error={!!errors?.basics?.summary}
+                    helperText={errors?.basics?.summary?.message}
+                />
+
+                {/* LOCATION */}
+
+                <Typography className={styles.sectionTitle}>Location</Typography>
+
+                <Box className={styles.row}>
+                    <TextField
+                        label="Address"
+                        className={styles.input}
+                        {...register("basics.location.address")}
+                        error={!!errors?.basics?.location?.address}
+                        helperText={errors?.basics?.location?.address?.message}
+                    />
+
+                    <TextField
+                        label="City"
+                        className={styles.input}
+                        {...register("basics.location.city")}
+                        error={!!errors?.basics?.location?.city}
+                        helperText={errors?.basics?.location?.city?.message}
+                    />
+                </Box>
+
+                <Box className={styles.row}>
+                    <TextField
+                        label="Region"
+                        className={styles.input}
+                        {...register("basics.location.region")}
+                        error={!!errors?.basics?.location?.region}
+                        helperText={errors?.basics?.location?.region?.message}
+                    />
+
+                    <TextField
+                        label="Postal Code"
+                        className={styles.input}
+                        {...register("basics.location.postalCode")}
+                        error={!!errors?.basics?.location?.postalCode}
+                        helperText={errors?.basics?.location?.postalCode?.message}
+                    />
+
+                    <TextField
+                        label="Country Code"
+                        className={styles.input}
+                        {...register("basics.location.countryCode")}
+                        error={!!errors?.basics?.location?.countryCode}
+                        helperText={errors?.basics?.location?.countryCode?.message}
+                    />
+                </Box>
+
+                {/* WORK EXPERIENCE */}
+
+                <Typography className={styles.sectionTitle}>
+                    Work Experience
+                </Typography>
+
+                {workFields.map((item, index) => (
+                    <Box key={item.id} className={styles.block}>
+                        <Box className={styles.row}>
+                            <TextField
+                                label="Company"
+                                className={styles.input}
+                                {...register(`work.${index}.name` as const)}
+                                error={!!errors?.work?.[index]?.name}
+                                helperText={errors?.work?.[index]?.name?.message}
+                            />
+
+                            <TextField
+                                label="Position"
+                                className={styles.input}
+                                {...register(`work.${index}.position` as const)}
+                                error={!!errors?.work?.[index]?.position}
+                                helperText={errors?.work?.[index]?.position?.message}
+                            />
+                        </Box>
+
+                        <Box className={styles.row}>
+                            <TextField
+                                label="Company URL"
+                                className={styles.input}
+                                {...register(`work.${index}.url` as const)}
+                                error={!!errors?.work?.[index]?.url}
+                                helperText={errors?.work?.[index]?.url?.message}
+                            />
+
+                            <TextField
+                                type="date"
+                                className={styles.input}
+                                {...register(`work.${index}.startDate` as const)}
+                                error={!!errors?.work?.[index]?.startDate}
+                                helperText={errors?.work?.[index]?.startDate?.message}
+                            />
+
+                            <TextField
+                                type="date"
+                                className={styles.input}
+                                {...register(`work.${index}.endDate` as const)}
+                                error={!!errors?.work?.[index]?.endDate}
+                                helperText={errors?.work?.[index]?.endDate?.message}
+                            />
+                        </Box>
+
+                        <Button color="error" onClick={() => removeWork(index)}>
+                            Remove
+                        </Button>
+                    </Box>
+                ))}
+
+                <Button
+                    variant="outlined"
+                    onClick={() =>
+                        addWork({
+                            name: "",
+                            position: "",
+                            url: "",
+                            startDate: "",
+                            endDate: null,
+                        })
+                    }
+                >
+                    Add Work
+                </Button>
+
+                {/* EDUCATION */}
+
+                <Typography className={styles.sectionTitle}>
+                    Education
+                </Typography>
+
+                {educationFields.map((item, index) => (
+                    <Box key={item.id} className={styles.block}>
+                        <Box className={styles.row}>
+                            <TextField
+                                label="Institution"
+                                className={styles.input}
+                                {...register(`education.${index}.institution` as const)}
+                                error={!!errors?.education?.[index]?.institution}
+                                helperText={
+                                    errors?.education?.[index]?.institution?.message
+                                }
+                            />
+
+                            <TextField
+                                label="Degree"
+                                className={styles.input}
+                                {...register(`education.${index}.studyType` as const)}
+                                error={!!errors?.education?.[index]?.studyType}
+                                helperText={
+                                    errors?.education?.[index]?.studyType?.message
+                                }
+                            />
+                        </Box>
+
+                        <Box className={styles.row}>
+                            <TextField
+                                label="Field of Study"
+                                className={styles.input}
+                                {...register(`education.${index}.area` as const)}
+                            />
+
+                            <TextField
+                                label="Score"
+                                className={styles.input}
+                                {...register(`education.${index}.score` as const)}
+                            />
+                        </Box>
+
+                        <Box className={styles.row}>
+                            <TextField
+                                label="Institution URL"
+                                className={styles.input}
+                                {...register(`education.${index}.url` as const)}
+                            />
+
+                            <TextField
+                                type="date"
+                                className={styles.input}
+                                {...register(`education.${index}.startDate` as const)}
+                            />
+
+                            <TextField
+                                type="date"
+                                className={styles.input}
+                                {...register(`education.${index}.endDate` as const)}
+                            />
+                        </Box>
+
+                        <Button color="error" onClick={() => removeEducation(index)}>
+                            Remove
+                        </Button>
+                    </Box>
+                ))}
+
+                <Button
+                    variant="outlined"
+                    onClick={() =>
+                        addEducation({
+                            institution: "",
+                            url: "",
+                            area: "",
+                            studyType: "",
+                            startDate: "",
+                            endDate: null,
+                            score: "",
+                        })
+                    }
+                >
+                    Add Education
+                </Button>
+
+                {/* SKILLS */}
+
+                <Typography className={styles.sectionTitle}>Skills</Typography>
+
+                {skillFields.map((item, index) => (
+                    <Box key={item.id} className={styles.block}>
+                        <Box className={styles.row}>
+                            <TextField
+                                label="Skill"
+                                className={styles.input}
+                                {...register(`skills.${index}.name` as const)}
+                            />
+
+                            <TextField
+                                label="Level"
+                                className={styles.input}
+                                {...register(`skills.${index}.level` as const)}
+                            />
+                        </Box>
+
+                        <Button color="error" onClick={() => removeSkill(index)}>
+                            Remove
+                        </Button>
+                    </Box>
+                ))}
+
+                <Button
+                    variant="outlined"
+                    onClick={() =>
+                        addSkill({
+                            name: "",
+                            level: "",
+                        })
+                    }
+                >
+                    Add Skill
+                </Button>
+
+                <Button
+                    variant="contained"
+                    type="submit"
+                    className={styles.submit}
+                >
+                    Save Resume
+                </Button>
+            </form>
+        </Box>
+    );
+}

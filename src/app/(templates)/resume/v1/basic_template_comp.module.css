@@ -7,7 +7,6 @@
     justify-content: center;
     align-items: center;
     overflow: scroll;
-    margin-top: 5%;
 }
 
 .content {
@@ -56,7 +55,7 @@
 }
 
 .section_block::before {
-    content: "●";
+    /* content: "●"; */
 }
 
 .section_title {

@@ -4,7 +4,7 @@ const publicRoutes = ['/public', '/login', '/signup'];
 const AuthBlockRoutes = ['/login', '/signup']
 
 export default function middleware(req: NextRequest) {
-    const credentials = req.cookies.get("uid")?.value;
+    const credentials = req.cookies.get("phone_no")?.value;
     const pathname = req.nextUrl.pathname;
     const isPublic = publicRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`) || pathname.endsWith('.svg'));
     const isAuthBlock = AuthBlockRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`));

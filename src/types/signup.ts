@@ -2,13 +2,7 @@ import { z } from "zod"
 
 export const signupSchema = z
     .object({
-        email: z.string().min(1, "Email is required").email("Invalid email"),
-        password: z.string().min(6, "Password must be at least 6 characters"),
-        confirmPassword: z.string().min(6, "Confirm your password")
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords do not match",
-        path: ["confirmPassword"]
+        phone_no: z.string().min(1, "Phone is required"),
     })
 
 export type SignupSchemaType = z.infer<typeof signupSchema>

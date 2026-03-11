@@ -1,0 +1,57 @@
+{
+    "basics": {
+        "name": "John Doe",
+        "image": "https://example.com/profile.jpg",
+        "email": "john.doe@example.com",
+        "phone": "+1-555-123-4567",
+        "summary": "Full-stack developer with 4+ years of experience building scalable web applications.",
+        "location": {
+            "address": "123 Main Street",
+            "postalCode": "10001",
+            "city": "New York",
+            "countryCode": "US",
+            "region": "NY"
+        }
+    },
+    "work": [
+        {
+            "name": "Tech Solutions Inc",
+            "position": "Frontend Developer",
+            "url": "https://techsolutions.com",
+            "startDate": "2021-06",
+            "endDate": "2023-12"
+        },
+        {
+            "name": "NextGen Labs",
+            "position": "Full Stack Developer",
+            "url": "https://nextgenlabs.com",
+            "startDate": "2024-01",
+            "endDate": null
+        }
+    ],
+    "education": [
+        {
+            "institution": "Stanford University",
+            "url": "https://www.stanford.edu",
+            "area": "Computer Science",
+            "studyType": "Bachelor",
+            "startDate": "2017-08",
+            "endDate": "2021-05",
+            "score": "3.8 GPA"
+        }
+    ],
+    "skills": [
+        {
+            "name": "JavaScript",
+            "level": "Advanced"
+        },
+        {
+            "name": "React",
+            "level": "Advanced"
+        },
+        {
+            "name": "Node.js",
+            "level": "Intermediate"
+        }
+    ]
+}

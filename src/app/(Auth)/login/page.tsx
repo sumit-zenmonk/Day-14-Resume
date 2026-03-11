@@ -6,10 +6,12 @@ import { AppDispatch } from "@/redux/store"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginSchemaType } from "@/types/login"
-import { googleLogin, loginUser } from "@/redux/feature/Auth/authAction"
 import { useRouter } from "next/navigation"
-import GoogleIcon from '@mui/icons-material/Google';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
+import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
+import Cookies from "js-cookie"
 
 import {
     Box,
@@ -20,11 +22,12 @@ import {
     Divider,
     InputLabel
 } from "@mui/material"
-import Image from "next/image"
+import { enqueueSnackbar } from "notistack"
 
 export default function LoginForm() {
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
+    const users = useSelector((state: RootState) => state.AllSignedUpUsersReducer)
 
     const {
         register,
@@ -35,21 +38,21 @@ export default function LoginForm() {
     })
 
     const onSubmit = async (data: LoginSchemaType) => {
-        try {
-            await dispatch(loginUser(data))
-            router.replace("/")
-        } catch (error) {
-            console.error(error)
-        }
-    }
+        const userExists = users.find(
+            (user) => user.mobile_no === data.phone_no
+        )
 
-    const handleGoogleLogin = async () => {
-        try {
-            await dispatch(googleLogin()).unwrap()
-            router.replace("/")
-        } catch (error) {
-            console.error(error)
+        if (!userExists) {
+            enqueueSnackbar("User not found. Please signup first.", { variant: "error" })
+            return
         }
+        dispatch(
+            selectCurrLogin({
+                mobile_no: data.phone_no
+            })
+        )
+        Cookies.set("phone_no", data.phone_no)
+        router.replace("/")
     }
 
     return (
@@ -71,15 +74,15 @@ export default function LoginForm() {
 
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                     <Box className={styles.field}>
-                        <InputLabel htmlFor="email" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
-                            Email
+                        <InputLabel htmlFor="phone_no" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
+                            Phone
                         </InputLabel>
                         <TextField
-                            id="email"
-                            // label="Email"
-                            type="email"
+                            id="phone_no"
+                            // label="phone_no"
+                            type="number"
                             fullWidth
-                            {...register("email")}
+                            {...register("phone_no")}
                             slotProps={{
                                 inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
                                 input: {
@@ -91,37 +94,9 @@ export default function LoginForm() {
                                 },
                             }}
                         />
-                        {errors.email && (
+                        {errors.phone_no && (
                             <span className={styles.error}>
-                                {errors.email.message}
-                            </span>
-                        )}
-                    </Box>
-
-                    <Box className={styles.field}>
-                        <InputLabel htmlFor="password" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
-                            Password
-                        </InputLabel>
-                        <TextField
-                            id="password"
-                            // label="Password"
-                            type="password"
-                            fullWidth
-                            {...register("password")}
-                            slotProps={{
-                                inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
-                                input: {
-                                    sx: {
-                                        height: "40px",
-                                        color: 'white',
-                                        '& input::placeholder': { color: 'white', opacity: 1 },
-                                    },
-                                },
-                            }}
-                        />
-                        {errors.password && (
-                            <span className={styles.error}>
-                                {errors.password.message}
+                                {errors.phone_no.message}
                             </span>
                         )}
                     </Box>
@@ -134,61 +109,6 @@ export default function LoginForm() {
                         Login
                     </Button>
                 </form>
-
-                <Divider className={styles.divider}>OR</Divider>
-
-                <Button
-                    variant="outlined"
-                    className={styles.providerLoginBox}
-                    onClick={handleGoogleLogin}
-                >
-                    {/* <GoogleIcon /> */}
-                    <Image
-                        src={'/google.png'}
-                        alt="google icon"
-                        width={25}
-                        height={25}
-                    />
-                    <Typography>
-                        Login with Google
-                    </Typography>
-                </Button>
-
-                <Button
-                    variant="outlined"
-                    className={styles.providerLoginBox}
-                    onClick={handleGoogleLogin}
-                >
-                    {/* <GoogleIcon /> */}
-                    <Image
-                        src={'/microsoft.png'}
-                        alt="google icon"
-                        width={25}
-                        height={25}
-                    />
-                    <Typography>
-                        Login with microsoft
-                    </Typography>
-                </Button>
-
-                <Button
-                    variant="outlined"
-                    className={styles.providerLoginBox}
-                    onClick={handleGoogleLogin}
-                >
-                    <Box>
-                        {/* <GoogleIcon /> */}
-                        <Image
-                            src={'/github.png'}
-                            alt="google icon"
-                            width={25}
-                            height={25}
-                        />
-                    </Box>
-                    <Typography>
-                        Login with github
-                    </Typography>
-                </Button>
 
                 <Box className={styles.signupBox}>
                     <Typography className={styles.noAcc}>Don't have Account ?</Typography>
