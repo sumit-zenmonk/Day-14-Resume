@@ -7,11 +7,16 @@ import { RootState } from "@/redux/store"
 import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice"
 import Image from "next/image"
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import { ResumeSchemaType } from "@/types/resume"
 
-export default function BasicTemplateComp() {
+interface ResumeProps {
+    propData?: ResumeSchemaType
+}
+
+export default function PremiumTemplateComp({ propData }: ResumeProps) {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
     const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no, 2))
-    const { basics, work, education, skills } = userData?.content_data || {};
+    const { basics, work, education, skills } = propData || userData?.content_data || {};
 
     const handlePrint = () => {
         window.print();

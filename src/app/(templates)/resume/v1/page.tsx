@@ -5,11 +5,16 @@ import styles from "./basic_template_comp.module.css"
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice";
+import { ResumeSchemaType } from "@/types/resume";
 
-export default function BasicTemplateComp() {
+interface ResumeProps {
+    propData?: ResumeSchemaType
+}
+
+export default function BasicTemplateComp({ propData }: ResumeProps) {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
     const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no, 1))
-    const { basics, work, education, skills } = userData?.content_data || {};
+    const { basics, work, education, skills } = propData || userData?.content_data || {};
 
     return (
         <Box className={styles.container}>
@@ -25,7 +30,7 @@ export default function BasicTemplateComp() {
                             {basics?.email || "******@example.com"} | {basics?.phone || "(555) ---------"}
                         </Typography>
                         <Typography className={styles.basic_item}>
-                            {basics?.location?.city || "---------"}, {basics?.location?.region || "----------"} {basics?.location?.postalCode ||"*******"}
+                            {basics?.location?.city || "---------"}, {basics?.location?.region || "----------"} {basics?.location?.postalCode || "*******"}
                         </Typography>
                         <Typography className={styles.basic_item}>
                             {basics?.location?.countryCode || "Country"}

@@ -16,7 +16,7 @@
     /* padding: 5%; */
     border: 1px solid grey;
     overflow: scroll;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(100px);
 }
 
 .resume_card {

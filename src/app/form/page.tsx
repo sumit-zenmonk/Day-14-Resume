@@ -4,7 +4,7 @@ import styles from "./resume_form_comp.module.css";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResumeSchema, ResumeSchemaType } from "@/types/resume";
-import { Box, Button, Fab, TextField, Typography } from "@mui/material";
+import { Box, Button, Fab, Modal, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice";
@@ -16,6 +16,10 @@ import { useState } from "react";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { selectCurrTemplate } from "@/redux/feature/selected_template/selected_template";
 import SaveIcon from '@mui/icons-material/Save';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { enqueueSnackbar } from "notistack";
+import BasicTemplateComp from "../(templates)/resume/v1/page";
+import PremiumTemplateComp from "../(templates)/resume/v2/page";
 
 export default function ResumeForm() {
     const {
@@ -23,6 +27,7 @@ export default function ResumeForm() {
         handleSubmit,
         control,
         setValue,
+        watch,
         formState: { errors },
     } = useForm<ResumeSchemaType>({
         resolver: zodResolver(ResumeSchema),
@@ -71,6 +76,7 @@ export default function ResumeForm() {
     const template_id = useSelector((state: RootState) => state.CurrSelectedTemplate.template_id)
     const router = useRouter();
     const [open, setOpen] = useState<boolean>(false);
+    const [resumeModelOpen, setResumeModelOpen] = useState<boolean>(false);
 
     const {
         fields: workFields,
@@ -111,16 +117,34 @@ export default function ResumeForm() {
     }
 
     const handleOpen = () => setOpen(true);
-
     const handleClose = () => setOpen(false);
+
+
+    const handleResumeModalOpen = () => setResumeModelOpen(true);
+    const handleResumeModalClose = () => setResumeModelOpen(false);
 
     const handleSelection = async (id: number) => {
         await dispatch(selectCurrTemplate({ template_id: id }));
         setOpen(false);
     }
+    const formData = watch();
 
     return (
         <Box className={styles.container}>
+            
+            <Modal
+                open={resumeModelOpen}
+                onClose={handleResumeModalClose}
+                className={styles.modal}
+            >
+                <Box className={styles.modalBox}>
+                    {template_id == 1 ?
+                        <BasicTemplateComp />
+                        :
+                        <PremiumTemplateComp propData={formData} />}
+                </Box>
+            </Modal>
+
             <Box className={styles.header}>
                 <Typography variant="h5" className={styles.title}>
                     Resume Builder
@@ -470,10 +494,12 @@ export default function ResumeForm() {
                 // onPreview={(id) => router.push(`/resume/v${id}`)}
                 />
                 <Box className={styles.submitBox}>
-                    <Button
-                        onClick={handleOpen}
-                    >
+                    <Button onClick={handleOpen}>
                         <ChangeCircleIcon />
+                    </Button>
+
+                    <Button onClick={handleResumeModalOpen}>
+                        <VisibilityIcon />
                     </Button>
 
                     <Button
@@ -483,6 +509,6 @@ export default function ResumeForm() {
                     </Button>
                 </Box>
             </form>
-        </Box>
+        </Box >
     );
 }
