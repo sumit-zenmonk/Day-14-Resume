@@ -10,7 +10,7 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 
 export default function BasicTemplateComp() {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
-    const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no))
+    const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no, 2))
     const { basics, work, education, skills } = userData?.content_data || {};
 
     const handlePrint = () => {
@@ -24,22 +24,22 @@ export default function BasicTemplateComp() {
                 {/* logo box */}
                 <Box className={styles.header_logo_box}>
                     <Typography className={styles.username}>
-                        {basics?.name}
+                        {basics?.name || "S*********"}
                     </Typography>
                     <Typography className={styles.profession}>
-                        Chartered Accountant
+                        {work?.[0]?.position || "F------------"}
                     </Typography>
                 </Box>
                 <Box className={styles.headerDesignLabel}></Box>
 
-                {/* header deatisls side */}
+                {/* contact details */}
                 <Box className={styles.header_details}>
                     <Box className={styles.header_details_box}>
                         <Typography className={styles.headerLabel}>
                             Phone
                         </Typography>
                         <Typography className={styles.headerLabelText}>
-                            {basics?.phone}
+                            {basics?.phone || "+91 ************"}
                         </Typography>
                     </Box>
 
@@ -48,7 +48,7 @@ export default function BasicTemplateComp() {
                             Email
                         </Typography>
                         <Typography className={styles.headerLabelText}>
-                            {basics?.email}
+                            {basics?.email || "*********@example.com"}
                         </Typography>
                     </Box>
 
@@ -57,7 +57,7 @@ export default function BasicTemplateComp() {
                             Location
                         </Typography>
                         <Typography className={styles.headerLabelText}>
-                            {basics?.location?.address}, {basics?.location?.city}
+                            {basics?.location?.address || "***** 21"}, {basics?.location?.city || "---------"}
                         </Typography>
                     </Box>
 
@@ -92,7 +92,7 @@ export default function BasicTemplateComp() {
                             Profile Summary
                         </Typography>
                         <Typography className={styles.section_text}>
-                            {basics?.summary}
+                            {basics?.summary || "---------------------"}
                         </Typography>
                     </Box>
 
@@ -102,16 +102,41 @@ export default function BasicTemplateComp() {
                             Key Skills
                         </Typography>
                         <Box className={styles.skill_box}>
-                            {skills && skills.length && skills.map((skill: any, idx: number) => (
-                                <Box key={idx} className={styles.skill_item}>
-                                    <Typography className={styles.skill_name}>
-                                        {skill.name}
-                                    </Typography>
-                                    <Typography className={styles.skill_level}>
-                                        {skill.level}
-                                    </Typography>
-                                </Box>
-                            ))}
+                            {skills && skills.length ? (
+                                skills.map((skill: any, idx: number) => (
+                                    <Box key={idx} className={styles.skill_item}>
+                                        <Typography className={styles.skill_name}>
+                                            {skill.name}
+                                        </Typography>
+                                        <Typography className={styles.skill_level}>
+                                            {skill.level}
+                                        </Typography>
+                                    </Box>
+                                ))
+                            ) : (
+                                <>
+                                    <Box className={styles.skill_item}>
+                                        <Typography className={styles.skill_name}>React</Typography>
+                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                    </Box>
+
+                                    <Box className={styles.skill_item}>
+                                        <Typography className={styles.skill_name}>Next.js</Typography>
+                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                    </Box>
+
+                                    <Box className={styles.skill_item}>
+                                        <Typography className={styles.skill_name}>JavaScript</Typography>
+                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                    </Box>
+
+                                    <Box className={styles.skill_item}>
+                                        <Typography className={styles.skill_name}>Material UI</Typography>
+                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                    </Box>
+                                </>
+                            )}
+
                         </Box>
                     </Box>
                 </Box>
@@ -123,39 +148,67 @@ export default function BasicTemplateComp() {
                         <Typography className={styles.section_title}>
                             Work Experience
                         </Typography>
-                        {work && work.length && work.map((job: any, idx: number) => (
-                            <Box key={idx} className={styles.work_item}>
-                                <Typography className={styles.work_position}>
-                                    {job.position}
-                                </Typography>
-                                <Typography className={styles.work_company}>
-                                    {job.name}
-                                </Typography>
-                                <Typography className={styles.work_date}>
-                                    {job.startDate} - {job.endDate}
-                                </Typography>
-                            </Box>
-                        ))}
+
+                        {work && work.length ? (
+                            work.map((job: any, idx: number) => (
+                                <Box key={idx} className={styles.work_item}>
+                                    <Typography className={styles.work_position}>
+                                        {job.position}
+                                    </Typography>
+                                    <Typography className={styles.work_company}>
+                                        {job.name}
+                                    </Typography>
+                                    <Typography className={styles.work_date}>
+                                        {job.startDate} - {job.endDate}
+                                    </Typography>
+                                </Box>
+                            ))
+                        ) : (
+                            <>
+                                <Box className={styles.work_item}>
+                                    <Typography className={styles.work_position}>Frontend Developer</Typography>
+                                    <Typography className={styles.work_company}>Tech Solutions Pvt Ltd</Typography>
+                                    <Typography className={styles.work_date}>Jan 2022 - Present</Typography>
+                                </Box>
+
+                                <Box className={styles.work_item}>
+                                    <Typography className={styles.work_position}>Junior Developer</Typography>
+                                    <Typography className={styles.work_company}>Web Innovators</Typography>
+                                    <Typography className={styles.work_date}>Jun 2020 - Dec 2021</Typography>
+                                </Box>
+                            </>
+                        )}
+
                     </Box>
 
-                    {/* education section */}
+                    {/* education */}
                     <Box className={styles.section_box}>
                         <Typography className={styles.section_title}>
                             Education
                         </Typography>
-                        {education && education.length && education.map((edu: any, idx: number) => (
-                            <Box key={idx} className={styles.edu_item}>
-                                <Typography className={styles.edu_degree}>
-                                    {edu.studyType}
-                                </Typography>
-                                <Typography className={styles.edu_school}>
-                                    {edu.institution}
-                                </Typography>
-                                <Typography className={styles.edu_date}>
-                                    {edu.startDate} - {edu.endDate}
-                                </Typography>
+
+                        {education && education.length ? (
+                            education.map((edu: any, idx: number) => (
+                                <Box key={idx} className={styles.edu_item}>
+                                    <Typography className={styles.edu_degree}>
+                                        {edu.studyType}
+                                    </Typography>
+                                    <Typography className={styles.edu_school}>
+                                        {edu.institution}
+                                    </Typography>
+                                    <Typography className={styles.edu_date}>
+                                        {edu.startDate} - {edu.endDate}
+                                    </Typography>
+                                </Box>
+                            ))
+                        ) : (
+                            <Box className={styles.edu_item}>
+                                <Typography className={styles.edu_degree}>B.Tech Computer Science</Typography>
+                                <Typography className={styles.edu_school}>Delhi Technical University</Typography>
+                                <Typography className={styles.edu_date}>2016 - 2020</Typography>
                             </Box>
-                        ))}
+                        )}
+
                     </Box>
                 </Box>
             </Box>

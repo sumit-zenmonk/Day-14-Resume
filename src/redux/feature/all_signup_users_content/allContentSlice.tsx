@@ -7,6 +7,7 @@ import { RootState } from "@/redux/store";
 interface UserData {
     mobile_no: string;
     content_data: ResumeSchemaType;
+    template_id: number;
 }
 
 const initialState: UserData[] = [];
@@ -16,13 +17,13 @@ const AllContentSlice = createSlice({
     initialState,
     reducers: {
         AddContent: (state, action: PayloadAction<UserData>) => {
-            const { mobile_no, content_data } = action.payload;
-            const existingUser = state.find(user => user.mobile_no === mobile_no);
+            const { mobile_no, content_data, template_id } = action.payload;
+            const existingUser = state.find(user => user.mobile_no === mobile_no && user.template_id === template_id);
 
             if (existingUser) {
                 existingUser.content_data = content_data;
             } else {
-                state.push({ mobile_no, content_data });
+                state.push({ mobile_no, content_data, template_id });
             }
         },
         resetAllContent: () => {
@@ -31,8 +32,8 @@ const AllContentSlice = createSlice({
     },
 });
 
-export const selectContentByMobile = (state: RootState, mobileNo: string) =>
-    state.AllUserContentReducer.find(user => user.mobile_no === mobileNo);
+export const selectContentByMobile = (state: RootState, mobileNo: string, template_id: number) =>
+    state.AllUserContentReducer.find(user => user.mobile_no === mobileNo && user.template_id==template_id);
 
 export const { AddContent, resetAllContent } = AllContentSlice.actions;
 export default AllContentSlice.reducer;

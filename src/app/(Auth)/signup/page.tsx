@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation"
 import DescriptionIcon from '@mui/icons-material/Description';
 import { AllSignup } from "@/redux/feature/all_signup_users/allUserSlice";
 import Cookies from "js-cookie";
-import intialData from "../../../../dummy_content.json";
 
 import {
     Box,
@@ -21,7 +20,6 @@ import {
     Typography
 } from "@mui/material"
 import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
-import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice"
 
 export default function SignupForm() {
     const dispatch = useDispatch<AppDispatch>()
@@ -37,7 +35,6 @@ export default function SignupForm() {
     const onSubmit = async (data: SignupSchemaType) => {
         await dispatch(AllSignup({ mobile_no: data.phone_no }));
         await dispatch(selectCurrLogin({ mobile_no: data.phone_no }))
-        await dispatch(AddContent({ mobile_no: data.phone_no, content_data: intialData }));
 
         Cookies.set("phone_no", data.phone_no);
         router.replace("/otp");
@@ -68,6 +65,10 @@ export default function SignupForm() {
                             // label="Phone"
                             type="number"
                             fullWidth
+                            inputProps={{
+                                minLength: 5,
+                                maxLength: 10
+                            }}
                             {...register("phone_no")}
                             slotProps={{
                                 inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },

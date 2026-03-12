@@ -94,8 +94,7 @@ export default function ResumeForm() {
     });
 
     const onSubmit = async (data: ResumeSchemaType) => {
-        console.log(data);
-        await dispatch(AddContent({ mobile_no: user.mobile_no, content_data: data }))
+        await dispatch(AddContent({ mobile_no: user.mobile_no, content_data: data, template_id: template_id }))
         router.push(`/resume/v${template_id}`)
     };
 

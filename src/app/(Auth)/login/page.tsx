@@ -12,7 +12,6 @@ import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
 import Cookies from "js-cookie"
-import intialData from "../../../../dummy_content.json";
 
 import {
     Box,
@@ -24,7 +23,6 @@ import {
     InputLabel
 } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
-import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice"
 
 export default function LoginForm() {
     const dispatch = useDispatch<AppDispatch>()
@@ -83,6 +81,10 @@ export default function LoginForm() {
                             type="number"
                             fullWidth
                             {...register("phone_no")}
+                            inputProps={{
+                                minLength: 5,
+                                maxLength: 10
+                            }}
                             slotProps={{
                                 inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
                                 input: {

@@ -8,7 +8,7 @@ import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/
 
 export default function BasicTemplateComp() {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
-    const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no))
+    const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no, 1))
     const { basics, work, education, skills } = userData?.content_data || {};
 
     return (
@@ -17,15 +17,15 @@ export default function BasicTemplateComp() {
                 {/* Header */}
                 <Box className={styles.sections}>
                     <Typography className={styles.user_name}>
-                        {basics?.name || "John Doe"}
+                        {basics?.name || "J*****"}
                     </Typography>
 
                     <Box className={styles.header_basic_details}>
                         <Typography className={styles.basic_item}>
-                            {basics?.email || "email@example.com"} | {basics?.phone || "(555) 000-0000"}
+                            {basics?.email || "******@example.com"} | {basics?.phone || "(555) ---------"}
                         </Typography>
                         <Typography className={styles.basic_item}>
-                            {basics?.location?.city || "City"}, {basics?.location?.region || "Region"} {basics?.location?.postalCode}
+                            {basics?.location?.city || "---------"}, {basics?.location?.region || "----------"} {basics?.location?.postalCode ||"*******"}
                         </Typography>
                         <Typography className={styles.basic_item}>
                             {basics?.location?.countryCode || "Country"}

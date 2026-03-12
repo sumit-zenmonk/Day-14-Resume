@@ -5,18 +5,3 @@
     justify-content: center;
     align-items: center;
 }
-
-.MuiInputBase-input,
-.MuiInputLabel-root {
-    color: rgb(255, 255, 255);
-}
-
-.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-    border-color: rgb(139, 139, 139);
-    border-radius: 5px;
-}
-
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
-.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: rgb(255, 255, 255);
-}
