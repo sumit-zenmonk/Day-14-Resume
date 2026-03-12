@@ -40,7 +40,7 @@ export default function SignupForm() {
         await dispatch(AddContent({ mobile_no: data.phone_no, content_data: intialData }));
 
         Cookies.set("phone_no", data.phone_no);
-        router.replace("/");
+        router.replace("/otp");
     }
 
     return (

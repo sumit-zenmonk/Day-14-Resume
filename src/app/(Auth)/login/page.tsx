@@ -52,7 +52,7 @@ export default function LoginForm() {
         await dispatch(selectCurrLogin({ mobile_no: data.phone_no }));
 
         Cookies.set("phone_no", data.phone_no)
-        router.replace("/")
+        router.replace("/otp")
     }
 
     return (
