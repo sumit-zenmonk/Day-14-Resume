@@ -1,16 +1,21 @@
 "use client"
 
-import { Box, Typography } from "@mui/material"
+import { Box, Fab, Typography } from "@mui/material"
 import styles from "./premium_template_comp.module.css"
 import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
 import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice"
 import Image from "next/image"
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 
 export default function BasicTemplateComp() {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
     const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no))
     const { basics, work, education, skills } = userData?.content_data || {};
+
+    const handlePrint = () => {
+        window.print();
+    };
 
     return (
         <Box className={styles.container}>
@@ -154,6 +159,17 @@ export default function BasicTemplateComp() {
                     </Box>
                 </Box>
             </Box>
+            <Fab
+                onClick={handlePrint}
+                color="primary"
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16
+                }}
+            >
+                <LocalPrintshopIcon />
+            </Fab>
         </Box>
     )
 }
