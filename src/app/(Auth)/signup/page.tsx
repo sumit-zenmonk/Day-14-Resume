@@ -3,7 +3,7 @@
 import styles from "./signup.module.css"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "@/redux/store"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signupSchema, SignupSchemaType } from "@/types/signup"
 import { useRouter } from "next/navigation"
@@ -20,11 +20,13 @@ import {
     Typography
 } from "@mui/material"
 import { selectCurrLogin } from "@/redux/feature/curr_login/currLoginSlice"
+import { matchIsValidTel, MuiTelInput } from "mui-tel-input"
 
 export default function SignupForm() {
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
     const {
+        control,
         register,
         handleSubmit,
         formState: { errors }
@@ -60,33 +62,27 @@ export default function SignupForm() {
                         <InputLabel htmlFor="phone_no" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
                             Phone
                         </InputLabel>
-                        <TextField
-                            id="phone_no"
-                            // label="Phone"
-                            type="number"
-                            fullWidth
-                            inputProps={{
-                                minLength: 5,
-                                maxLength: 10
+                        <Controller
+                            name="phone_no"
+                            control={control}
+                            rules={{
+                                validate: (value) => matchIsValidTel(value) || "Invalid phone number"
                             }}
-                            {...register("phone_no")}
-                            slotProps={{
-                                inputLabel: { sx: { color: 'white', '&.Mui-focused': { color: 'white' } } },
-                                input: {
-                                    sx: {
-                                        height: "40px",
-                                        color: 'white',
-                                        '& input::placeholder': { color: 'white', opacity: 1 },
-                                        '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
-                                            display: 'none',
-                                        },
-                                        // Hide arrows for Firefox
-                                        '& input[type=number]': {
-                                            MozAppearance: 'textfield',
-                                        },
-                                    },
-                                },
-                            }}
+                            render={({ field, fieldState }) => (
+                                <MuiTelInput
+                                    {...field}
+                                    fullWidth
+                                    defaultCountry="IN"
+                                    error={!!fieldState.error}
+                                    helperText={fieldState.error?.message}
+                                    sx={{
+                                        "& .MuiInputBase-root": {
+                                            height: "40px",
+                                            color: "white"
+                                        }
+                                    }}
+                                />
+                            )}
                         />
                         {errors.phone_no && (
                             <span className={styles.error}>

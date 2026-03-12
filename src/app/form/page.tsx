@@ -1,18 +1,18 @@
 "use client";
 
 import styles from "./resume_form_comp.module.css";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResumeSchema, ResumeSchemaType } from "@/types/resume";
 import { Box, Button, Fab, Modal, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice";
+import { AddContent, selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice";
 import { resetCurrLogin } from "@/redux/feature/curr_login/currLoginSlice";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import TemplateModal from "@/component/template_modal/template_modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { selectCurrTemplate } from "@/redux/feature/selected_template/selected_template";
 import SaveIcon from '@mui/icons-material/Save';
@@ -20,6 +20,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { enqueueSnackbar } from "notistack";
 import BasicTemplateComp from "../(templates)/resume/v1/page";
 import PremiumTemplateComp from "../(templates)/resume/v2/page";
+import { matchIsValidTel, MuiTelInput } from "mui-tel-input";
 
 export default function ResumeForm() {
     const {
@@ -28,6 +29,7 @@ export default function ResumeForm() {
         control,
         setValue,
         watch,
+        reset,
         formState: { errors },
     } = useForm<ResumeSchemaType>({
         resolver: zodResolver(ResumeSchema),
@@ -78,6 +80,9 @@ export default function ResumeForm() {
     const [open, setOpen] = useState<boolean>(false);
     const [resumeModelOpen, setResumeModelOpen] = useState<boolean>(false);
 
+    // if already present data
+    const userData = useSelector((state: RootState) => selectContentByMobile(state, user.mobile_no, template_id))
+
     const {
         fields: workFields,
         append: addWork,
@@ -119,7 +124,6 @@ export default function ResumeForm() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
     const handleResumeModalOpen = () => setResumeModelOpen(true);
     const handleResumeModalClose = () => setResumeModelOpen(false);
 
@@ -129,9 +133,17 @@ export default function ResumeForm() {
     }
     const formData = watch();
 
+    useEffect(() => {
+        if (userData?.content_data) {
+            reset(userData.content_data);
+        } else {
+            reset();
+        }
+    }, [userData?.content_data, reset, template_id]);
+
     return (
         <Box className={styles.container}>
-            
+
             <Modal
                 open={resumeModelOpen}
                 onClose={handleResumeModalClose}
@@ -180,12 +192,30 @@ export default function ResumeForm() {
                 </Box>
 
                 <Box className={styles.row}>
-                    <TextField
+                    {/* <TextField
                         label="Phone"
                         className={styles.input}
                         {...register("basics.phone")}
                         error={!!errors?.basics?.phone}
                         helperText={errors?.basics?.phone?.message}
+                    /> */}
+                    <Controller
+                        name="basics.phone"
+                        control={control}
+                        rules={{
+                            validate: (value) => matchIsValidTel(value) || "Invalid phone number"
+                        }}
+                        render={({ field, fieldState }) => (
+                            <MuiTelInput
+                                {...field}
+                                label="Phone"
+                                defaultCountry="IN"
+                                fullWidth
+                                className={styles.input}
+                                error={!!fieldState.error}
+                                helperText={fieldState.error?.message}
+                            />
+                        )}
                     />
 
                     <TextField
