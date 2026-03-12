@@ -90,6 +90,13 @@ export default function LoginForm() {
                                         height: "40px",
                                         color: 'white',
                                         '& input::placeholder': { color: 'white', opacity: 1 },
+                                        '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                                            display: 'none',
+                                        },
+                                        // Hide arrows for Firefox
+                                        '& input[type=number]': {
+                                            MozAppearance: 'textfield',
+                                        },
                                     },
                                 },
                             }}
