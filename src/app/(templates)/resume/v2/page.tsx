@@ -25,6 +25,7 @@ export default function BasicTemplateComp() {
                         Chartered Accountant
                     </Typography>
                 </Box>
+                <Box className={styles.headerDesignLabel}></Box>
 
                 {/* header deatisls side */}
                 <Box className={styles.header_details}>

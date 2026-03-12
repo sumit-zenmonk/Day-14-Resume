@@ -331,12 +331,20 @@ export default function ResumeForm() {
                                 label="Field of Study"
                                 className={styles.input}
                                 {...register(`education.${index}.area` as const)}
+                                error={!!errors?.education?.[index]?.area}
+                                helperText={
+                                    errors?.education?.[index]?.area?.message
+                                }
                             />
 
                             <TextField
                                 label="Score"
                                 className={styles.input}
                                 {...register(`education.${index}.score` as const)}
+                                error={!!errors?.education?.[index]?.score}
+                                helperText={
+                                    errors?.education?.[index]?.score?.message
+                                }
                             />
                         </Box>
 
@@ -345,18 +353,30 @@ export default function ResumeForm() {
                                 label="Institution URL"
                                 className={styles.input}
                                 {...register(`education.${index}.url` as const)}
+                                error={!!errors?.education?.[index]?.url}
+                                helperText={
+                                    errors?.education?.[index]?.url?.message
+                                }
                             />
 
                             <TextField
                                 type="date"
                                 className={styles.input}
                                 {...register(`education.${index}.startDate` as const)}
+                                error={!!errors?.education?.[index]?.startDate}
+                                helperText={
+                                    errors?.education?.[index]?.startDate?.message
+                                }
                             />
 
                             <TextField
                                 type="date"
                                 className={styles.input}
                                 {...register(`education.${index}.endDate` as const)}
+                                error={!!errors?.education?.[index]?.endDate}
+                                helperText={
+                                    errors?.education?.[index]?.endDate?.message
+                                }
                             />
                         </Box>
 
@@ -394,12 +414,20 @@ export default function ResumeForm() {
                                 label="Skill"
                                 className={styles.input}
                                 {...register(`skills.${index}.name` as const)}
+                                error={!!errors?.skills?.[index]?.name}
+                                helperText={
+                                    errors?.skills?.[index]?.name?.message
+                                }
                             />
 
                             <TextField
                                 label="Level"
                                 className={styles.input}
                                 {...register(`skills.${index}.level` as const)}
+                                error={!!errors?.skills?.[index]?.level}
+                                helperText={
+                                    errors?.skills?.[index]?.level?.message
+                                }
                             />
                         </Box>
 
