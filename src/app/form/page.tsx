@@ -450,7 +450,6 @@ export default function ResumeForm() {
                 </Button>
 
                 <Button
-                    variant="contained"
                     type="submit"
                     className={styles.submit}
                 >

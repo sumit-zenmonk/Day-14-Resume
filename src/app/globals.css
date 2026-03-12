@@ -23,17 +23,18 @@ img:hover {
 }
 
 
-.MuiInputBase-input {
-  color: rgb(255, 255, 255);
+.MuiInputBase-input,
+.MuiInputLabel-root {
+  color: rgb(0, 0, 0);
 }
 
 .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline,
 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  /* border-color: transparent; */
+  border-color: rgb(0, 0, 0);
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  /* border-color: transparent; */
+  border-color: rgb(0, 195, 255);
 }
 
 input:-webkit-autofill,

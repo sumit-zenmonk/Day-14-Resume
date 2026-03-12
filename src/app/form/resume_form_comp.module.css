@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     background: linear-gradient(160deg, #020617, #3f3f3f, #020617);
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 .header {
@@ -47,9 +47,10 @@
     gap: 24px;
     padding: 32px;
     border-radius: 10px;
-    background: #d1d1d1;
+    background: #ffffff;
     color: rgb(0, 0, 0);
     overflow: scroll;
+    padding-bottom: 100px;
 }
 
 .sectionTitle {
@@ -76,13 +77,24 @@
     width: 100%;
     padding: 20px;
     border-radius: 8px;
-    background: #c0c0c0;
+    /* background: linear-gradient(160deg, #ffffff, #3f3f3f, #ffffff); */
+    border: 1px solid black;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 .submit {
-    width: 200px;
-    margin-top: 10px;
+    padding: 1%;
+    border-radius: 100px;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    font-weight: 800;
+    background-color: #3f3f3f;
+    color: white;
+}
+
+.MuiInputBase-label {
+    color: rgb(255, 255, 255);
 }
