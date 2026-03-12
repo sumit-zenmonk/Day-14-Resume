@@ -61,7 +61,7 @@ export default function SignupForm() {
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                     <Box className={styles.field}>
                         <InputLabel htmlFor="phone_no" sx={{ color: "white", fontWeight: 600, fontSize: ".8rem" }}>
-                            Phone no
+                            Phone
                         </InputLabel>
                         <TextField
                             id="phone_no"

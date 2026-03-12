@@ -23,27 +23,29 @@ export default function OtpPage() {
 
     return (
         <Box className={styles.container}>
-            <Box className={styles.header}>
-                <Box >
-                    <DescriptionIcon fontSize='large' className='logo'
-                        onClick={() => router.replace('/')} sx={{
-                            '&:hover': {
-                                cursor: "grab"
-                            },
-                        }} />
+            <Box className={styles.wrapper}>
+                <Box className={styles.header}>
+                    <Box >
+                        <DescriptionIcon fontSize='large' className='logo'
+                            onClick={() => router.replace('/')} sx={{
+                                '&:hover': {
+                                    cursor: "grab"
+                                },
+                            }} />
+                    </Box>
+                    <Typography variant="h5" className={styles.title}>
+                        Welcome Back
+                    </Typography>
                 </Box>
-                <Typography variant="h5" className={styles.title}>
-                    Welcome Back
-                </Typography>
+                <MuiOtpInput
+                    className={styles.otpWrapper}
+                    value={value}
+                    onChange={handleChange}
+                    onComplete={handleComplete}
+                    length={4}
+                    autoFocus
+                />
             </Box>
-            <MuiOtpInput
-                className={styles.otpWrapper}
-                value={value}
-                onChange={handleChange}
-                onComplete={handleComplete}
-                length={4}
-                autoFocus
-            />
         </Box>
     )
 }
