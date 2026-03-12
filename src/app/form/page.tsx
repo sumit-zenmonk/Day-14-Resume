@@ -7,7 +7,7 @@ import { ResumeSchema, ResumeSchemaType } from "@/types/resume";
 import { Box, Button, Fab, Modal, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { AddContent, selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice";
+import { AddContent, selectContentByMobile } from "@/redux/feature/usersContent/allContentSlice";
 import { resetCurrLogin } from "@/redux/feature/curr_login/currLoginSlice";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";

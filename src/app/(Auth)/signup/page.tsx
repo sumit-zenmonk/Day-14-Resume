@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { signupSchema, SignupSchemaType } from "@/types/signup"
 import { useRouter } from "next/navigation"
 import DescriptionIcon from '@mui/icons-material/Description';
-import { AllSignup } from "@/redux/feature/all_signup_users/allUserSlice";
+import { AllSignup } from "@/redux/feature/authUsers/allUserSlice";
 import Cookies from "js-cookie";
 
 import {

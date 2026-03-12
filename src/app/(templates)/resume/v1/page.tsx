@@ -4,7 +4,7 @@ import { Box, Fab, Typography } from "@mui/material"
 import styles from "./basic_template_comp.module.css"
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice";
+import { selectContentByMobile } from "@/redux/feature/usersContent/allContentSlice";
 import { ResumeSchemaType } from "@/types/resume";
 import { useRef } from "react";
 import html2pdf from "html2pdf.js";

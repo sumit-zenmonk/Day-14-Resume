@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { selectCurrTemplate } from "@/redux/feature/selected_template/selected_template";
 import TemplateModal from "@/component/template_modal/template_modal";
-import { removeContent } from "@/redux/feature/all_signup_users_content/allContentSlice";
+import { removeContent } from "@/redux/feature/usersContent/allContentSlice";
 
 export default function HomeComp() {
   const router = useRouter();
