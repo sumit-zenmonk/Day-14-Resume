@@ -8,6 +8,9 @@ import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/
 import Image from "next/image"
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { ResumeSchemaType } from "@/types/resume"
+import { useRef } from "react"
+import html2pdf from "html2pdf.js"
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 interface ResumeProps {
     propData?: ResumeSchemaType
@@ -17,13 +20,28 @@ export default function PremiumTemplateComp({ propData }: ResumeProps) {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
     const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no, 2))
     const { basics, work, education, skills } = propData || userData?.content_data || {};
+    const contentRef = useRef(null);
 
     const handlePrint = () => {
         window.print();
     };
 
+    const handleDownload = () => {
+        if (contentRef.current) {
+            const options = {
+                margin: 1,
+                filename: 'document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 1 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().from(contentRef.current).set(options).save();
+        }
+    };
+
     return (
-        <Box className={styles.container}>
+        <Box className={styles.container} ref={contentRef} >
             {/* header top lecel */}
             <Box className={styles.header}>
                 {/* logo box */}
@@ -121,23 +139,23 @@ export default function PremiumTemplateComp({ propData }: ResumeProps) {
                             ) : (
                                 <>
                                     <Box className={styles.skill_item}>
-                                        <Typography className={styles.skill_name}>React</Typography>
-                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                        <Typography className={styles.skill_name}>****</Typography>
+                                        <Typography className={styles.skill_level}>-------</Typography>
                                     </Box>
 
                                     <Box className={styles.skill_item}>
-                                        <Typography className={styles.skill_name}>Next.js</Typography>
-                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                        <Typography className={styles.skill_name}>****</Typography>
+                                        <Typography className={styles.skill_level}>-------</Typography>
                                     </Box>
 
                                     <Box className={styles.skill_item}>
-                                        <Typography className={styles.skill_name}>JavaScript</Typography>
-                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                        <Typography className={styles.skill_name}>****</Typography>
+                                        <Typography className={styles.skill_level}>-------</Typography>
                                     </Box>
 
                                     <Box className={styles.skill_item}>
-                                        <Typography className={styles.skill_name}>Material UI</Typography>
-                                        <Typography className={styles.skill_level}>Advanced</Typography>
+                                        <Typography className={styles.skill_name}>****</Typography>
+                                        <Typography className={styles.skill_level}>-------</Typography>
                                     </Box>
                                 </>
                             )}
@@ -171,15 +189,15 @@ export default function PremiumTemplateComp({ propData }: ResumeProps) {
                         ) : (
                             <>
                                 <Box className={styles.work_item}>
-                                    <Typography className={styles.work_position}>Frontend Developer</Typography>
-                                    <Typography className={styles.work_company}>Tech Solutions Pvt Ltd</Typography>
+                                    <Typography className={styles.work_position}>K****** S--------</Typography>
+                                    <Typography className={styles.work_company}>****---</Typography>
                                     <Typography className={styles.work_date}>Jan 2022 - Present</Typography>
                                 </Box>
 
                                 <Box className={styles.work_item}>
-                                    <Typography className={styles.work_position}>Junior Developer</Typography>
-                                    <Typography className={styles.work_company}>Web Innovators</Typography>
-                                    <Typography className={styles.work_date}>Jun 2020 - Dec 2021</Typography>
+                                    <Typography className={styles.work_position}>M****** S--------</Typography>
+                                    <Typography className={styles.work_company}>****---</Typography>
+                                    <Typography className={styles.work_date}>Jan 2012 - Present</Typography>
                                 </Box>
                             </>
                         )}
@@ -208,8 +226,8 @@ export default function PremiumTemplateComp({ propData }: ResumeProps) {
                             ))
                         ) : (
                             <Box className={styles.edu_item}>
-                                <Typography className={styles.edu_degree}>B.Tech Computer Science</Typography>
-                                <Typography className={styles.edu_school}>Delhi Technical University</Typography>
+                                <Typography className={styles.edu_degree}>B.*** T*--------</Typography>
+                                <Typography className={styles.edu_school}>D--- J--------- K-----</Typography>
                                 <Typography className={styles.edu_date}>2016 - 2020</Typography>
                             </Box>
                         )}
@@ -227,6 +245,17 @@ export default function PremiumTemplateComp({ propData }: ResumeProps) {
                 }}
             >
                 <LocalPrintshopIcon />
+            </Fab>
+            <Fab
+                onClick={handleDownload}
+                color="primary"
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 80
+                }}
+            >
+                <DownloadForOfflineIcon />
             </Fab>
         </Box>
     )

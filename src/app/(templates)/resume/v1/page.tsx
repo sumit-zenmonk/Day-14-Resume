@@ -1,11 +1,15 @@
 "use client"
 
-import { Box, Typography } from "@mui/material"
+import { Box, Fab, Typography } from "@mui/material"
 import styles from "./basic_template_comp.module.css"
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { selectContentByMobile } from "@/redux/feature/all_signup_users_content/allContentSlice";
 import { ResumeSchemaType } from "@/types/resume";
+import { useRef } from "react";
+import html2pdf from "html2pdf.js";
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 interface ResumeProps {
     propData?: ResumeSchemaType
@@ -15,6 +19,25 @@ export default function BasicTemplateComp({ propData }: ResumeProps) {
     const mobile_no = useSelector((state: RootState) => state.CurrLoginReducer.mobile_no)
     const userData = useSelector((state: RootState) => selectContentByMobile(state, mobile_no, 1))
     const { basics, work, education, skills } = propData || userData?.content_data || {};
+    const contentRef = useRef(null);
+
+    const handlePrint = () => {
+        window.print();
+    };
+
+    const handleDownload = () => {
+        if (contentRef.current) {
+            const options = {
+                margin: 1,
+                filename: 'document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 1 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().from(contentRef.current).set(options).save();
+        }
+    };
 
     return (
         <Box className={styles.container}>
@@ -110,8 +133,29 @@ export default function BasicTemplateComp({ propData }: ResumeProps) {
                         </Box>
                     )) : <Typography>No education listed.</Typography>}
                 </Box>
-
             </Box>
+            <Fab
+                onClick={handlePrint}
+                color="primary"
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16
+                }}
+            >
+                <LocalPrintshopIcon />
+            </Fab>
+            <Fab
+                onClick={handleDownload}
+                color="primary"
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 80
+                }}
+            >
+                <DownloadForOfflineIcon />
+            </Fab>
         </Box>
     )
 }
