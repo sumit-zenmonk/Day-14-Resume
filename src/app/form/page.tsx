@@ -136,8 +136,6 @@ export default function ResumeForm() {
     useEffect(() => {
         if (userData?.content_data) {
             reset(userData.content_data);
-        } else {
-            reset();
         }
     }, [userData?.content_data, reset, template_id]);
 
@@ -151,7 +149,7 @@ export default function ResumeForm() {
             >
                 <Box className={styles.modalBox}>
                     {template_id == 1 ?
-                        <BasicTemplateComp />
+                        <BasicTemplateComp propData={formData} />
                         :
                         <PremiumTemplateComp propData={formData} />}
                 </Box>

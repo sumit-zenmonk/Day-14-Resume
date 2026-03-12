@@ -27,7 +27,7 @@ export default function BasicTemplateComp({ propData }: ResumeProps) {
 
     const handleDownload = () => {
         if (contentRef.current) {
-            const options = {
+            const options: any = {
                 margin: 1,
                 filename: 'document.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
