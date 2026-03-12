@@ -50,7 +50,6 @@ export default function LoginForm() {
         }
 
         await dispatch(selectCurrLogin({ mobile_no: data.phone_no }));
-        await dispatch(AddContent({ mobile_no: data.phone_no, content_data: intialData }));
 
         Cookies.set("phone_no", data.phone_no)
         router.replace("/")

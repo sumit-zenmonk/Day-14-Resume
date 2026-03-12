@@ -58,7 +58,7 @@
 .headerDesignLabel {
     width: 100px;
     height: 100px;
-    background-color: rgb(0, 80, 145);
+    background-color: rgba(92, 117, 147);
     position: absolute;
     top: 0;
 }
@@ -94,7 +94,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background: rgb(211, 237, 255);
+    background: rgba(234, 244, 255);
     overflow: scroll;
 }
 
@@ -125,10 +125,11 @@
 }
 
 .skill_box {
-    border-radius: 100px;
-    background-color: rgb(0, 88, 146);
+    margin-left: 20%;
+    border-radius: 16px;
+    background-color: rgba(92, 117, 147);
     color: white;
-    padding: 5% 20%;
+    padding: 5%;
 }
 
 .section_title {
