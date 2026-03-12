@@ -25,12 +25,13 @@ img:hover {
 
 .MuiInputBase-input,
 .MuiInputLabel-root {
-  color: rgb(0, 0, 0);
+  border-color: rgb(0, 153, 255);
 }
 
 .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline,
 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgb(0, 0, 0);
+  border-color: rgb(0, 153, 255);
+  border-radius: 16px;
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {

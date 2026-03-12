@@ -26,6 +26,10 @@ const AllContentSlice = createSlice({
                 state.push({ mobile_no, content_data, template_id });
             }
         },
+        removeContent: (state, action) => {
+            const { mobile_no, template_id } = action.payload;
+            return state.filter((curr) => curr.mobile_no != mobile_no && curr.template_id != template_id);
+        },
         resetAllContent: () => {
             return initialState;
         },
@@ -33,7 +37,7 @@ const AllContentSlice = createSlice({
 });
 
 export const selectContentByMobile = (state: RootState, mobileNo: string, template_id: number) =>
-    state.AllUserContentReducer.find(user => user.mobile_no === mobileNo && user.template_id==template_id);
+    state.AllUserContentReducer.find(user => user.mobile_no === mobileNo && user.template_id == template_id);
 
-export const { AddContent, resetAllContent } = AllContentSlice.actions;
+export const { AddContent, resetAllContent, removeContent } = AllContentSlice.actions;
 export default AllContentSlice.reducer;

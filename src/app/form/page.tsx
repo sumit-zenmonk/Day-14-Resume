@@ -21,6 +21,7 @@ import { enqueueSnackbar } from "notistack";
 import BasicTemplateComp from "../(templates)/resume/v1/page";
 import PremiumTemplateComp from "../(templates)/resume/v2/page";
 import { matchIsValidTel, MuiTelInput } from "mui-tel-input";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function ResumeForm() {
     const {
@@ -341,14 +342,14 @@ export default function ResumeForm() {
                             />
                         </Box>
 
-                        <Button color="error" onClick={() => removeWork(index)}>
-                            Remove
+                        <Button className={styles.formRemovetn} onClick={() => removeWork(index)}>
+                            <DeleteForeverIcon />
                         </Button>
                     </Box>
                 ))}
 
                 <Button
-                    variant="outlined"
+                    className={styles.fromAddbtn}
                     onClick={() =>
                         addWork({
                             name: "",
@@ -446,14 +447,14 @@ export default function ResumeForm() {
                             />
                         </Box>
 
-                        <Button color="error" onClick={() => removeEducation(index)}>
-                            Remove
+                        <Button className={styles.formRemovetn} onClick={() => removeEducation(index)}>
+                            <DeleteForeverIcon />
                         </Button>
                     </Box>
                 ))}
 
                 <Button
-                    variant="outlined"
+                    className={styles.fromAddbtn}
                     onClick={() =>
                         addEducation({
                             institution: "",
@@ -497,14 +498,14 @@ export default function ResumeForm() {
                             />
                         </Box>
 
-                        <Button color="error" onClick={() => removeSkill(index)}>
-                            Remove
+                        <Button className={styles.formRemovetn} onClick={() => removeSkill(index)}>
+                            <DeleteForeverIcon />
                         </Button>
                     </Box>
                 ))}
 
                 <Button
-                    variant="outlined"
+                    className={styles.fromAddbtn}
                     onClick={() =>
                         addSkill({
                             name: "",

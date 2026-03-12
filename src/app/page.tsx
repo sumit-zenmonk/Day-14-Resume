@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { selectCurrTemplate } from "@/redux/feature/selected_template/selected_template";
 import TemplateModal from "@/component/template_modal/template_modal";
+import { removeContent } from "@/redux/feature/all_signup_users_content/allContentSlice";
 
 export default function HomeComp() {
   const router = useRouter();
@@ -28,6 +29,10 @@ export default function HomeComp() {
     router.push(`/form`);
   }
 
+  const handleDelete = async (id: number) => {
+    await dispatch(removeContent({ mobile: user.mobile_no, template_id: id }))
+  }
+
   const userData = data.filter(curr => curr.mobile_no == user.mobile_no);
 
   return (
@@ -40,8 +45,14 @@ export default function HomeComp() {
               <Box key={index} className={styles.resume_card}>
                 <Image src={`/v${item.template_id}.png`} width={100} height={100} alt="resume" />
                 <Box className={styles.resume_card_button_box}>
-                  <Button onClick={() => { router.push(`/resume/v${item.template_id}`) }}>
+                  <Button onClick={() => { handleSelection(item.template_id) }} className={styles.editbtn}>
+                    Edit
+                  </Button>
+                  <Button onClick={() => { router.push(`/resume/v${item.template_id}`) }} className={styles.previewbtn}>
                     Preview
+                  </Button>
+                  <Button onClick={() => { handleDelete(item.template_id) }} className={styles.removebtn}>
+                    Delete
                   </Button>
                 </Box>
               </Box>
