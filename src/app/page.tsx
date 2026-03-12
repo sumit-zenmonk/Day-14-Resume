@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { selectCurrTemplate } from "@/redux/feature/selected_template/selected_template";
+import TemplateModal from "@/component/template_modal/template_modal";
 
 export default function HomeComp() {
   const router = useRouter();
@@ -34,41 +35,28 @@ export default function HomeComp() {
       <HeaderComp />
       {
         userData.length > 0 ?
-          userData.map((item, index) => (
-            <Box key={index} className={styles.resume_card}>
-              <Image src={`/v${item.template_id}.png`} width={100} height={100} alt="resume" />
-              <Box className={styles.resume_card_button_box}>
-                <Button onClick={() => { router.push(`/resume/v${item.template_id}`) }}>
-                  Preview
-                </Button>
+          <Box className={styles.listingContainer}>
+            {userData.map((item, index) => (
+              <Box key={index} className={styles.resume_card}>
+                <Image src={`/v${item.template_id}.png`} width={100} height={100} alt="resume" />
+                <Box className={styles.resume_card_button_box}>
+                  <Button onClick={() => { router.push(`/resume/v${item.template_id}`) }}>
+                    Preview
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          ))
+            ))}
+          </Box>
           :
           <>No Data Provided</>
       }
 
-      <Modal
+      <TemplateModal
         open={open}
-        onClose={handleClose}
-      >
-        <Box className={styles.modal_container}>
-          <Box className={styles.resume_card}>
-            <Image src={'/v1.png'} width={100} height={100} alt="miss" />
-            <Box className={styles.resume_card_button_box}>
-              <Button onClick={() => { router.push('/resume/v1') }}>Preview</Button>
-              <Button onClick={() => { handleSelection(1) }}>Use</Button>
-            </Box>
-          </Box>
-          <Box className={styles.resume_card}>
-            <Image src={'/v2.png'} width={100} height={100} alt="miss" onClick={() => { handleSelection(2) }} />
-            <Box className={styles.resume_card_button_box}>
-              <Button onClick={() => { router.push('/resume/v2') }}>Preview</Button>
-              <Button onClick={() => { handleSelection(2) }}>Use</Button>
-            </Box>
-          </Box>
-        </Box>
-      </Modal>
+        handleClose={handleClose}
+        onSelect={handleSelection}
+        onPreview={(id) => router.push(`/resume/v${id}`)}
+      />
 
       <Fab
         onClick={handleOpen}

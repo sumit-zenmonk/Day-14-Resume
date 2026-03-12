@@ -84,12 +84,18 @@
     gap: 16px;
 }
 
-.submit {
+.submitBox {
     padding: 1%;
-    border-radius: 100px;
     position: absolute;
     bottom: 16px;
     right: 16px;
+    font-weight: 800;
+    display: flex;
+}
+
+.submitBox button {
+    padding: 4%;
+    border-radius: 100px;
     font-weight: 800;
     background-color: #3f3f3f;
     color: white;

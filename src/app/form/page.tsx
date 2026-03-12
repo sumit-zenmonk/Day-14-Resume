@@ -4,13 +4,18 @@ import styles from "./resume_form_comp.module.css";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResumeSchema, ResumeSchemaType } from "@/types/resume";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Fab, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { AddContent } from "@/redux/feature/all_signup_users_content/allContentSlice";
 import { resetCurrLogin } from "@/redux/feature/curr_login/currLoginSlice";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import TemplateModal from "@/component/template_modal/template_modal";
+import { useState } from "react";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import { selectCurrTemplate } from "@/redux/feature/selected_template/selected_template";
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function ResumeForm() {
     const {
@@ -65,6 +70,7 @@ export default function ResumeForm() {
     const user = useSelector((state: RootState) => state.CurrLoginReducer)
     const template_id = useSelector((state: RootState) => state.CurrSelectedTemplate.template_id)
     const router = useRouter();
+    const [open, setOpen] = useState<boolean>(false);
 
     const {
         fields: workFields,
@@ -102,6 +108,15 @@ export default function ResumeForm() {
         await dispatch(resetCurrLogin())
         Cookies.remove("phone_no");
         router.replace("/login")
+    }
+
+    const handleOpen = () => setOpen(true);
+
+    const handleClose = () => setOpen(false);
+
+    const handleSelection = async (id: number) => {
+        await dispatch(selectCurrTemplate({ template_id: id }));
+        setOpen(false);
     }
 
     return (
@@ -448,12 +463,25 @@ export default function ResumeForm() {
                     Add Skill
                 </Button>
 
-                <Button
-                    type="submit"
-                    className={styles.submit}
-                >
-                    Save Resume
-                </Button>
+                <TemplateModal
+                    open={open}
+                    handleClose={handleClose}
+                    onSelect={handleSelection}
+                // onPreview={(id) => router.push(`/resume/v${id}`)}
+                />
+                <Box className={styles.submitBox}>
+                    <Button
+                        onClick={handleOpen}
+                    >
+                        <ChangeCircleIcon />
+                    </Button>
+
+                    <Button
+                        type="submit"
+                    >
+                        <SaveIcon />
+                    </Button>
+                </Box>
             </form>
         </Box>
     );
