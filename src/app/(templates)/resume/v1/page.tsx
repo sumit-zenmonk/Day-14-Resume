@@ -29,10 +29,22 @@ export default function BasicTemplateComp({ propData }: ResumeProps) {
         if (contentRef.current) {
             const options: any = {
                 margin: 1,
-                filename: 'document.pdf',
+                filename: 'myfile.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 1 },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                html2canvas: {
+                    scale: 2,
+                    scrollY: 0,
+                    useCORS: true,
+                    logging: true
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'letter',
+                    orientation: 'portrait'
+                },
+                pagebreak: {
+                    mode: ['css', 'legacy']
+                }
             };
 
             html2pdf().from(contentRef.current).set(options).save();
